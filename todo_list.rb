@@ -49,6 +49,54 @@ class TodoList
     @todos = []
   end
 
+  def each
+    todos.each do |todo|
+      yield(todo)
+    end
+    self
+  end
+
+  def select
+    list = TodoList.new(self.title)
+    each do |todo|
+      list.add(todo) if yield(todo)
+    end
+    list
+  end
+
+  # takes a string as argument, and returns 
+  # the first Todo object that matches the argument. 
+  # Return nil if no todo is found.
+  def find_by_title(search_title)
+    select { |todo| todo.title == search_title }.first
+  end
+
+  # returns new TodoList object containing only the done items
+  def all_done
+    select do |todo|
+      todo.done?
+    end
+  end
+
+  def all_not_done
+    select do |todo|
+      !todo.done?
+    end
+  end
+
+  def mark_done(todo_title)
+    find_by_title(todo_title).done!
+  end
+
+  def mark_all_done
+    done!
+  end
+
+  def mark_all_undone
+    each do |todo|
+      todo.undone!
+    end
+  end
   # ---- Adding to the list -----
   # adds todo to end of list, returns list
   # Can only accept to do objects
@@ -140,81 +188,99 @@ todo2 = Todo.new("Clean room")
 todo3 = Todo.new("Go to gym")
 list = TodoList.new("Today's Todos")
 
-# ---- Adding to the list -----
+# # ---- Adding to the list -----
 
-# add
-list.add(todo1)                 # adds todo1 to end of list, returns list
-list.add(todo2)                 # adds todo2 to end of list, returns list
-list.add(todo3)                 # adds todo3 to end of list, returns list
-# list.add(1)                     # raises TypeError with message "Can only add Todo objects"
+# # add
+# list.add(todo1)                 # adds todo1 to end of list, returns list
+# list.add(todo2)                 # adds todo2 to end of list, returns list
+# list.add(todo3)                 # adds todo3 to end of list, returns list
+# # list.add(1)                     # raises TypeError with message "Can only add Todo objects"
 
-# <<
-# same behavior as add
+# # <<
+# # same behavior as add
 
-# ---- Interrogating the list -----
+# # ---- Interrogating the list -----
 
-# size
-list.size                       # returns 3
+# # size
+# list.size                       # returns 3
 
-# first
-list.first                      # returns todo1, which is the first item in the list
+# # first
+# list.first                      # returns todo1, which is the first item in the list
 
-# last
-list.last                       # returns todo3, which is the last item in the list
+# # last
+# list.last                       # returns todo3, which is the last item in the list
 
-#to_a
-list.to_a                      # returns an array of all items in the list
+# #to_a
+# list.to_a                      # returns an array of all items in the list
 
-#done?
-list.done?                     # returns true if all todos in the list are done, otherwise false
+# #done?
+# list.done?                     # returns true if all todos in the list are done, otherwise false
 
-# ---- Retrieving an item in the list ----
+# # ---- Retrieving an item in the list ----
 
-# item_at
-# list.item_at                    # raises ArgumentError
-list.item_at(1)                 # returns 2nd item in list (zero based index)
-# list.item_at(3)               # raises IndexError
+# # item_at
+# # list.item_at                    # raises ArgumentError
+# list.item_at(1)                 # returns 2nd item in list (zero based index)
+# # list.item_at(3)               # raises IndexError
 
-# ---- Marking items in the list -----
+# # ---- Marking items in the list -----
 
-# mark_done_at
-# list.mark_done_at               # raises ArgumentError
-list.mark_done_at(1)            # marks the 2nd item as done
-# list.mark_done_at(100)          # raises IndexError
+# # mark_done_at
+# # list.mark_done_at               # raises ArgumentError
+# list.mark_done_at(1)            # marks the 2nd item as done
+# # list.mark_done_at(100)          # raises IndexError
 
-# mark_undone_at
-# list.mark_undone_at             # raises ArgumentError
-# list.mark_undone_at(1)          # marks the 2nd item as not done,
-# list.mark_undone_at(100)        # raises IndexError
+# # mark_undone_at
+# # list.mark_undone_at             # raises ArgumentError
+# # list.mark_undone_at(1)          # marks the 2nd item as not done,
+# # list.mark_undone_at(100)        # raises IndexError
 
-# done!
-# list.done!                      # marks all items as done
-# ---- Deleting from the list -----
+# # done!
+# # list.done!                      # marks all items as done
+# # ---- Deleting from the list -----
 
-# shift
-# list.shift                      # removes and returns the first item in list
+# # shift
+# # list.shift                      # removes and returns the first item in list
 
-# pop
-# list.pop                        # removes and returns the last item in list
+# # pop
+# # list.pop                        # removes and returns the last item in list
 
-# remove_at
-# list.remove_at                  # raises ArgumentError
-# p list.remove_at(1)               # removes and returns the 2nd item
-# p list.remove_at(100)             # raises IndexError
+# # remove_at
+# # list.remove_at                  # raises ArgumentError
+# # p list.remove_at(1)               # removes and returns the 2nd item
+# # p list.remove_at(100)             # raises IndexError
 
-# ---- Outputting the list -----
+# # ---- Outputting the list -----
 
-# to_s
-list.to_s                      # returns string representation of the list
+# # to_s
+# list.to_s                      # returns string representation of the list
 
-# ---- Today's Todos ----
-# [ ] Buy milk
-# [ ] Clean room
-# [ ] Go to gym
+# # ---- Today's Todos ----
+# # [ ] Buy milk
+# # [ ] Clean room
+# # [ ] Go to gym
 
-# or, if any todos are done
+# # or, if any todos are done
 
-# ---- Today's Todos ----
-# [ ] Buy milk
-# [X] Clean room
-# [ ] Go to gym
+# # ---- Today's Todos ----
+# # [ ] Buy milk
+# # [X] Clean room
+# # [ ] Go to gym
+
+
+todo1 = Todo.new("Buy milk")
+todo2 = Todo.new("Clean room")
+todo3 = Todo.new("Go to gym")
+
+list = TodoList.new("Today's Todos")
+list.add(todo1)
+list.add(todo2)
+list.add(todo3)
+
+# todo1.done!
+p list
+results = list.find_by_title("Buy milk")
+p results
+# puts list.inspect
+# list.mark_all_undone
+# puts list.inspect
