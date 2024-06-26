@@ -166,5 +166,3 @@ list.add(todo3)
 todo1.done!
 new_list = TodoList.new(list.title)
 new_list.add(todo1)
-p new_list
-p list.select{ |todo| todo.done? }
