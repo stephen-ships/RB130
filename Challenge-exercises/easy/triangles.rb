@@ -65,19 +65,38 @@ Code:
 =end
 
 class Triangle
+  attr_reader :sides
   def initialize(a_side, b_side, c_side)
-    
+    @sides = [a_side, b_side, c_side] if legal_triangle?(a_side, b_side, c_side)
   end
+
+
+  def kind
+    return 'equilateral' if sides.all? {|side| side == sides.first}
+    return 'scalene' if sides.uniq == sides
+    return 'isosceles' if sides.combination(2).to_a.any? {|side_comb| side_comb.first == side_comb.last }
+  end
+
 
   def legal_triangle?(*sides)
-    raise ArgumentError unless sides.all? {|side| side > 0}
-      
-    sides_combs = side.combination(2).to_a
-    sides_sums = sides_combs.map(&:sum)
-    2.downto(0).with_index do |index|
-      
-    end
-    raise ArgumentError unless 
+    # Check that ever side is greater than 0
+    raise ArgumentError unless legal_sides?(sides)
+    raise ArgumentError unless legal_side_sums?(sides)
+    true
   end
 
+  # Sides must be > 0
+  def legal_sides?(sides)
+    sides.all? {|side| side > 0}
+  end
+
+  # No 2 sides sums can be < remaining side
+  def legal_side_sums?(sides)
+    # Find sums of all sides combinations
+    sides_sums = sides.combination(2).to_a.map(&:sum)
+    # Loop through reversed sides to compare side sums with opposite side
+    sides.reverse.each_with_index.all? do |side, index|
+      sides_sums[index] > side
+    end
+  end
 end
