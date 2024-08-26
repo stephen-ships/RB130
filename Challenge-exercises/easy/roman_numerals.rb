@@ -46,33 +46,39 @@ iterate over collection of Roman numerals values
 
 class RomanNumeral
   ROMAN_NUMERALS = {
-    'M' => 1000,
-    'D' => 500,
-    'C' => 100,
-    'L' => 50,
-    'X' => 10,
-    'V' => 5,
-    'I' => 1} 
+    "M" => 1000,
+    "CM" => 900,
+    "D" => 500,
+    "CD" => 400,
+    "C" => 100,
+    "XC" => 90,
+    "L" => 50,
+    "XL" => 40,
+    "X" => 10,
+    "IX" => 9,
+    "V" => 5,
+    "IV" => 4,
+    "I" => 1
+  }
 
-  attr_accessor :input_int
+  attr_reader :input_int
   def initialize(input)
     @input_int = input
   end
 
   def to_roman
     output = ''
-
+    number = input_int
     ROMAN_NUMERALS.each do |roman_numeral, rom_val|
-      if rom_val <= input_int
-        num_of_numerals = input_int / rom_val
+      num_of_numerals, remainder = number.divmod(rom_val)
+      if num_of_numerals > 0
         output.concat(roman_numeral * num_of_numerals)
-        self.input_int -= (num_of_numerals * rom_val)
       end
+      number = remainder
     end
     output
+
   end
 
 end
 
-r = RomanNumeral.new(1)
-p r.to_roman
