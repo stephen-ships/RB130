@@ -1,3 +1,4 @@
+require "pry"
 =begin
 
 Problem
@@ -39,15 +40,39 @@ convert each string to collection of chars
 
 
 Algorithms
+iterate over input collection of strings
+  sort the string
+  check if string is anagram
+  select string if so
+return list of anagrams
 
+helper method
+if words are same return false
 
+sort org string
+sort input str
 
-
+if sorted words equal eachother return true
 
 
 
 =end
 
+class Anagram
+  attr_reader :saved_word
+  def initialize(word)
+    @saved_word = word
+  end
 
+  def match(words)
+    words.select do |word|
+      anagram?(word)
+    end
+  end
 
+  def anagram?(word)
+    return false if saved_word.downcase == word.downcase
+    saved_word.downcase.chars.sort.join == word.downcase.chars.sort.join
+  end
+end
 
