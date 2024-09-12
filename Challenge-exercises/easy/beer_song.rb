@@ -86,7 +86,18 @@ class BeerSong
       action = "Take one down and pass it around"
     end
 
-    num_bottles = curr_verse - 1 < 0 ? "99" : (curr_verse - 1).to_s
+    if curr_verse - 1 < 0
+      num_bottles = "99"
+    elsif curr_verse - 1 == 0
+      num_bottles = "no more"
+      bottle_grammar = "bottles"
+    elsif curr_verse - 1 == 1
+      num_bottles = (curr_verse - 1).to_s
+      bottle_grammar = "bottle"
+    else
+      num_bottles = (curr_verse - 1).to_s
+      bottle_grammar = "bottles"
+    end
     
     verse_part_2 = "#{action}, #{num_bottles} #{bottle_grammar} of beer on the wall.\n"
 
@@ -98,7 +109,8 @@ class BeerSong
     output = ''
     first_verse.downto(last_verse) do |curr_verse|
       output.concat(self.verse(curr_verse))
-      output += '\n' unless curr_verse == last_verse
+      p output
+      output += "\n" unless curr_verse == last_verse
     end
     output
   end
