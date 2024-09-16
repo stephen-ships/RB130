@@ -21,9 +21,9 @@ class Diamond
 
 class method
   takes string argumetn
-  makes diamond based on letter 
+  makes diamond based on letter
   return diamond string
-" A " 
+" A "
 "B B"
 " A "
 Data Structure:
@@ -36,12 +36,12 @@ Algorithm:
 class method make_diamond
   take input string and capitalize
   all string letters dealing with should be capitalized
-  could possible check input that it falls in range from A to Z 
-  
+  could possible check input that it falls in range from A to Z
+
   Diamond ranges is from A to input letter
   Get size of the range to calculate height and width of diamond
   take size * 2 - 1 to get the height and width
-  
+
   initialze empty diamond string
 
   find the current letter in diamond
@@ -51,9 +51,9 @@ class method make_diamond
     return string to block with new line
 
   iterate up over range of letters from A to letter
-  iterate down from letter before itself down to A 
+  iterate down from letter before itself down to A
 
   iterating over each row number of iterations being the total size of diamond
-  
 
-=end
+
+=end..
