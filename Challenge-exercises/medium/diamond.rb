@@ -45,15 +45,90 @@ class method make_diamond
   initialze empty diamond string
 
   find the current letter in diamond
-  iterate over range from A to input
-    Output the current letter to string
-    if letter is not a double the letter
-    return string to block with new line
-
   iterate up over range of letters from A to letter
   iterate down from letter before itself down to A
+    center row with spaces
+    output row
+    join each row with new line
+
+output row helper
+  for A output 'A'
+    for B output "B B"
+  for everythign else
+    output letter with correct spaces
+
+
+  hleper for number of spaces
+  A is zero
+  B is 1
+  C is 3
+  Everything after c is two more than previous
+
+
+    helper width of diamond
+    use spaces method and add 2 
+    A return 1
+    
+
 
   iterating over each row number of iterations being the total size of diamond
 
+C 3 3
+D 5, 4
+E 7, 5 
+F 9, 6
+G 11, 7
 
-=end..
+=end
+
+class Diamond
+  def self.make_diamond(letter)
+    letter = letter.upcase
+    output_diamond = ""
+
+    width = calc_width(letter)
+    ("A"...letter).each do |letter|
+      row = make_row(letter)
+      output_row = row.center(width, " ")
+      output_diamond += output_row + "\n"
+    end
+    
+    ("A"..letter).reverse_each do |letter|
+      row = make_row(letter)
+      output_row = row.center(width, " ")
+      output_diamond += output_row + "\n"
+    end
+    output_diamond
+  end
+
+  class << self
+    private
+
+    def calc_width(letter)
+      return 1 if letter == 'A'
+      calc_spaces(letter).chars.size + 2
+    end
+
+    def make_row(letter)
+      case letter
+      when "A" then "A"
+      when "B" then "B B"
+      else
+        "#{letter}#{calc_spaces(letter){letter}}"
+      end
+    end
+  
+    def calc_spaces(letter)
+      case letter
+      when "A" then ""
+      when "B" then " "
+      when "C" then "   "
+      else
+        backfill = ("C"..letter).to_a.size
+        index = ("A".."Z").to_a.index(letter)
+        spaces = backfill + index
+        " " * spaces
+      end
+    end
+  end
+end
