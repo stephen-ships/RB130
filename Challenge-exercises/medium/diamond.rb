@@ -114,7 +114,7 @@ class Diamond
       when "A" then "A"
       when "B" then "B B"
       else
-        "#{letter}#{calc_spaces(letter){letter}}"
+        "#{letter}#{calc_spaces(letter)}#{letter}"
       end
     end
   

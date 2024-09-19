@@ -23,7 +23,6 @@ class DiamondTest < Minitest::Test
   end
 
   def test_letter_e
-    skip
     answer = Diamond.make_diamond('E')
     string = "    A    \n"\
              "   B B   \n"\
